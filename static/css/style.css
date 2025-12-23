@@ -1,0 +1,558 @@
+/**
+ * Pool Stroke Trainer - Stylesheet
+ * 
+ * Professional, mobile-first responsive design with purple theme matching
+ * the ai-chatbot-webapp portfolio aesthetic.
+ * 
+ * Design Philosophy:
+ * - Mobile-first approach for optimal mobile performance
+ * - CSS custom properties for easy theming
+ * - Smooth animations and transitions
+ * - Accessibility-focused (proper contrast, touch targets)
+ * 
+ * @author Scott Gordon
+ * @email scott.aiengineer@outlook.com
+ * @license MIT
+ */
+
+/* ============================================================================
+   CSS CUSTOM PROPERTIES (THEME VARIABLES)
+   ============================================================================ */
+
+:root {
+    /* Primary Colors - Purple Theme */
+    --primary-color: #7B58E5;
+    --primary-light: #9B7BFF;
+    --primary-dark: #5A3CC2;
+    
+    /* Accent Colors */
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    
+    /* Background Colors */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    
+    /* UI Elements */
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 16px;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+/* ============================================================================
+   BASE STYLES & RESET
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1a2e 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    /* Prevent pull-to-refresh on mobile for native app feel */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ============================================================================
+   LAYOUT
+   ============================================================================ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    animation: fadeIn var(--transition-slow);
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+header {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+    border-bottom: 2px solid var(--bg-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ============================================================================
+   VIDEO CONTAINER
+   ============================================================================ */
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-base);
+}
+
+.video-container:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+#videoCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4 / 3;
+    background: #000;
+}
+
+#video {
+    display: none;
+}
+
+/* ============================================================================
+   STATUS INDICATOR
+   ============================================================================ */
+
+.status-indicator {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.75);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all var(--transition-base);
+    z-index: 10;
+}
+
+#statusText {
+    color: var(--text-primary);
+}
+
+.status-indicator.tracking {
+    background: rgba(16, 185, 129, 0.3);
+    border: 2px solid var(--success-color);
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.error {
+    background: rgba(239, 68, 68, 0.3);
+    border: 2px solid var(--danger-color);
+}
+
+.status-indicator.warning {
+    background: rgba(245, 158, 11, 0.3);
+    border: 2px solid var(--warning-color);
+}
+
+.status-indicator.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* ============================================================================
+   CONTROLS
+   ============================================================================ */
+
+.controls {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xl);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+    /* Minimum touch target size for accessibility (Apple HIG, Material Design) */
+    min-height: 44px;
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-base), height var(--transition-base);
+}
+
+.btn:hover:not(:disabled)::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+/* ============================================================================
+   METRICS PANEL
+   ============================================================================ */
+
+.metrics-panel {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: slideUp var(--transition-base);
+}
+
+.metrics-panel h3 {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background var(--transition-fast);
+}
+
+.metric:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.metric:last-of-type {
+    border-bottom: none;
+}
+
+.metric label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.metric span {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.unit {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: var(--spacing-xs);
+}
+
+.stroke-quality {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    text-align: center;
+    border-radius: var(--border-radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all var(--transition-base);
+}
+
+.stroke-quality.excellent {
+    background: rgba(16, 185, 129, 0.2);
+    border: 2px solid var(--success-color);
+    animation: celebrate 0.5s ease;
+}
+
+.stroke-quality.needs-work {
+    background: rgba(245, 158, 11, 0.2);
+    border: 2px solid var(--warning-color);
+}
+
+#qualityText {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+/* ============================================================================
+   INSTRUCTIONS
+   ============================================================================ */
+
+.instructions {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.instructions h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.instructions ol {
+    margin-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.instructions li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+}
+
+.tips {
+    background: rgba(123, 88, 229, 0.1);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid var(--primary-color);
+    margin-top: var(--spacing-md);
+}
+
+.tips ul {
+    margin-left: var(--spacing-lg);
+    margin-top: var(--spacing-sm);
+}
+
+.tips li {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-secondary);
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+footer {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--bg-secondary);
+    margin-top: var(--spacing-2xl);
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+footer a:hover {
+    color: var(--primary-light);
+    text-decoration: underline;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes celebrate {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .container {
+        padding: var(--spacing-xl);
+    }
+    
+    .controls {
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+    header h1 {
+        font-size: 3rem;
+    }
+    
+    .btn {
+        padding: 1rem 2rem;
+        font-size: 1.125rem;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (orientation: landscape) and (max-height: 600px) {
+    header {
+        padding: var(--spacing-md) 0;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .instructions {
+        display: none;
+    }
+    
+    .container {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* Dark mode support (follows system preference) */
+@media (prefers-color-scheme: dark) {
+    /* Already dark by default, but can add overrides if needed */
+}
+
+/* Reduced motion support (accessibility) */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support (accessibility) */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #9B7BFF;
+        --text-primary: #ffffff;
+        --bg-secondary: #000000;
+    }
+}

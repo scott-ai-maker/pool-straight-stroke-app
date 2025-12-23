@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Pool Stroke Trainer - Perfect your straight stroke with AI-powered computer vision analysis">
+    <meta name="keywords" content="pool, billiards, stroke trainer, computer vision, AI, sports training">
+    <meta name="author" content="Scott Gordon">
+    <meta name="theme-color" content="#7B58E5">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Pool Stroke Trainer">
+    <meta property="og:description" content="Perfect your straight stroke with real-time AI analysis">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/static/images/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pool Stroke Trainer">
+    <meta name="twitter:description" content="Perfect your straight stroke with real-time AI analysis">
+    
+    <title>Pool Stroke Trainer | AI-Powered Stroke Analysis</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>🎱 Pool Stroke Trainer</h1>
+            <p class="subtitle">Perfect your straight stroke with AI-powered analysis</p>
+        </header>
+
+        <main>
+            <!-- Video Analysis Section -->
+            <div class="video-container">
+                <!-- Canvas for displaying processed frames -->
+                <canvas id="videoCanvas"></canvas>
+                
+                <!-- Hidden video element for camera capture -->
+                <video id="video" autoplay playsinline style="display: none;"></video>
+                
+                <!-- Status indicator overlay -->
+                <div id="statusIndicator" class="status-indicator">
+                    <span id="statusText">Click "Start Camera" to begin</span>
+                </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="controls">
+                <button id="startCameraBtn" class="btn btn-primary">
+                    📷 Start Camera
+                </button>
+                
+                <button id="toggleTrackingBtn" class="btn btn-success" disabled>
+                    ▶️ Start Tracking
+                </button>
+                
+                <button id="resetBtn" class="btn btn-warning" disabled>
+                    🔄 Reset
+                </button>
+            </div>
+
+            <!-- Metrics Display Panel -->
+            <div id="metricsPanel" class="metrics-panel" style="display: none;">
+                <h3>📊 Stroke Metrics</h3>
+                
+                <div class="metric">
+                    <label>Deviation:</label>
+                    <div>
+                        <span id="metricDeviation">--</span>
+                        <span class="unit">px</span>
+                    </div>
+                </div>
+                
+                <div class="metric">
+                    <label>Smoothness:</label>
+                    <div>
+                        <span id="metricSmoothness">--</span>
+                        <span class="unit">px</span>
+                    </div>
+                </div>
+                
+                <div class="metric">
+                    <label>Angle:</label>
+                    <div>
+                        <span id="metricAngle">--</span>
+                        <span class="unit">°</span>
+                    </div>
+                </div>
+                
+                <div class="metric">
+                    <label>Speed:</label>
+                    <div>
+                        <span id="metricSpeed">--</span>
+                        <span class="unit">px/s</span>
+                    </div>
+                </div>
+                
+                <div id="strokeQuality" class="stroke-quality">
+                    <strong>Status:</strong> <span id="qualityText">Analyzing...</span>
+                </div>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="instructions">
+                <h3>📋 How to Use</h3>
+                <ol>
+                    <li>Mark your cue tip with <strong>red tape or marker</strong></li>
+                    <li>Click <strong>"Start Camera"</strong> and allow camera access</li>
+                    <li>Position your camera to capture your stroke motion</li>
+                    <li>Click <strong>"Start Tracking"</strong> when ready to practice</li>
+                    <li>Watch real-time feedback and review your metrics!</li>
+                </ol>
+                
+                <div class="tips">
+                    <strong>💡 Tips for Best Results:</strong>
+                    <ul>
+                        <li><strong>Lighting:</strong> Ensure good, even lighting for reliable tracking</li>
+                        <li><strong>Marker:</strong> Use a bright red marker that's clearly visible</li>
+                        <li><strong>Camera:</strong> Mount your device for stable, consistent view</li>
+                        <li><strong>Background:</strong> Plain backgrounds work best for detection</li>
+                        <li><strong>Practice:</strong> Start slow and focus on consistency</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="instructions">
+                <h3>✨ Features</h3>
+                <ul style="list-style: none; margin-left: 0;">
+                    <li>📱 <strong>Mobile-Friendly:</strong> Works on smartphones, tablets, and desktops</li>
+                    <li>⚡ <strong>Real-Time Analysis:</strong> Instant feedback on every stroke</li>
+                    <li>🎯 <strong>Quantitative Metrics:</strong> Deviation, smoothness, angle, and speed</li>
+                    <li>🎨 <strong>Visual Feedback:</strong> Color-coded path visualization</li>
+                    <li>🔒 <strong>Privacy-First:</strong> All processing happens in your session</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                Built by <strong>Scott Gordon</strong> | 
+                <a href="mailto:scott.aiengineer@outlook.com">Contact</a> | 
+                <a href="https://github.com/scott-ai-maker" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                Open Source | MIT License
+            </p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
